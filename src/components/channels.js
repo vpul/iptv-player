@@ -1,7 +1,8 @@
 import React from 'react';
 import getChannels from '../parsem3u';
+import ChannelCard from './channelCard';
 
-const Channels = () => {
+const Channels = ({setSelectedChannel}) => {
   const [channels, setChannels] = React.useState([]);
 
   React.useEffect(() => {
@@ -12,12 +13,20 @@ const Channels = () => {
     fetchChannels();
   }, []);
 
+  const clickHandler = (channel) => {
+    setSelectedChannel(channel);
+  }
+
   return (
-    channels.map(channel => {
-      return <li key={channel.url}>
-        {channel.name}
-        </li>
-    })
+    <div className="flex flex-wrap">
+      {channels.map(channel => {
+        return (
+          <div  key={channel.url} className="h-56 w-1/2 sm:w-1/3 lg:w-1/6 p-3">
+            <ChannelCard clickHandler={clickHandler} channel={channel} />
+          </div>
+        )
+      })}
+    </div>
   );
 };
 
