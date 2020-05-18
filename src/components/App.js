@@ -10,9 +10,9 @@ const App = () => {
       <div className='player-wrapper'>
         <ReactPlayer url={selectedChannel.url} playing controls width='100%' height='100%'/>
       </div>
-      <div className="container mx-auto">
+      {/* <div className="container mx-auto"> */}
         <Channels setSelectedChannel={setSelectedChannel} />
-      </div>
+      {/* </div> */}
     </>
   );
 }
