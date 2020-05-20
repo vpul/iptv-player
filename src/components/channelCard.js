@@ -8,13 +8,15 @@ const ChannelCard = ({clickHandler, channel }) => {
   };
 
   return (
-    <div onClick={() => clickHandler(channel)} className="shadow-md w-full h-full bg-gray-100">
-      <img 
-        className="mx-auto" 
-        alt={channel.name+' logo'} 
-        src={channel.logo || "https://picsum.photos/500/400.jpg?blur=6&grayscale" } 
-        onError={imgErrorHandler} 
-      />
+    <div onClick={() => clickHandler(channel)} className="rounded shadow-md w-full h-full bg-gray-100">
+      <div className='w-full h-32 p-3 flex items-center justify-center'>
+        <img 
+          className="mx-auto max-h-full" 
+          alt={channel.name+' logo'} 
+          src={channel.logo || "https://picsum.photos/500/400.jpg?blur=6&grayscale" } 
+          onError={imgErrorHandler} 
+        />
+      </div>
       <h3 className="m-1">{channel.name}</h3>
     </div>
   );
