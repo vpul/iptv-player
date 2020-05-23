@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactPlayer from 'react-player';
-import Channels from './channels';
+const Channels = React.lazy(() => import('./channels'));
 
 const App = () => {
   const [selectedChannel, setSelectedChannel] = React.useState('');
@@ -13,8 +13,9 @@ const App = () => {
       <div className='player-wrapper'>
         <ReactPlayer url={selectedChannel.url} playing controls width='100%' height='100%'/>
       </div>
-      
-      <Channels setSelectedChannel={setSelectedChannel} />
+      <React.Suspense fallback={<p className='text-6xl'>Loading...</p>}>
+        <Channels setSelectedChannel={setSelectedChannel} />
+      </React.Suspense>
     </>
   );
 }
