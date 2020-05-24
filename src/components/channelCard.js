@@ -4,7 +4,7 @@ import LoadingSpinner from './loadingSpinner';
 
 const Img = ({className, alt, src, onError}) => {
   const res = useImage({
-    srcList: [src, 'https://picsum.photos/600/400.jpg?blur=6&grayscale'],
+    srcList: [src, 'icons8-tv-100.png'],
   });
  
   return (
@@ -32,7 +32,7 @@ const ChannelCard = ({clickHandler, channel }) => {
         <Img
           className = 'mx-auto max-h-full'
           alt = {channel.name+' logo'} 
-          src = {channel.logo || "https://picsum.photos/500/400.jpg?blur=6&grayscale"}
+          src = {channel.logo || "icons8-tv-100.png"}
           onError = {imgErrorHandler}
         />
       </React.Suspense>
