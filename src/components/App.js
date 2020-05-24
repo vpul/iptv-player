@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactPlayer from 'react-player';
+import LoadingSpinner from './loadingSpinner';
 const Channels = React.lazy(() => import('./channels'));
 
 const App = () => {
@@ -13,7 +14,7 @@ const App = () => {
       <div className='player-wrapper'>
         <ReactPlayer url={selectedChannel.url} playing controls width='100%' height='100%'/>
       </div>
-      <React.Suspense fallback={<p className='text-6xl'>Loading...</p>}>
+      <React.Suspense fallback={<LoadingSpinner />}>
         <Channels setSelectedChannel={setSelectedChannel} />
       </React.Suspense>
     </>
