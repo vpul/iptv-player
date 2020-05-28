@@ -4,55 +4,6 @@ import 'react-virtualized/styles.css';
 import getChannels from '../fetchChannels';
 import ChannelCard from './channelCard';
 
-// const Channels = ({setSelectedChannel}) => {
-//   const [channels, setChannels] = React.useState([]);
-
-//   React.useEffect(() => {
-//     const fetchChannels = async () => {
-//       const channels = await getChannels();
-//       setChannels(channels);
-//     }
-//     fetchChannels();
-//   }, []);
-
-//   const clickHandler = (channel) => {
-//     setSelectedChannel(channel);
-//   }
-
-//   return (
-//     // <div className="flex flex-wrap justify-center">
-//     //   {channels.map(channel => {
-//     //     return (
-//     //       <li key={channel.url} className="list-none h-56 w-48 p-3">
-//     //         <ChannelCard clickHandler={clickHandler} channel={channel} />
-//     //       </li>
-//     //     )
-//     //   })}
-//     // </div>
-//     <List 
-//       height={650}
-//       itemCount={channels.count}
-//       itemSize={250}
-//       width={900}
-//     >
-//       {
-//         ({index, style}) => (
-//           // <div style={style} className="flex flex-wrap justify-center">
-//           //   {channels.map(channel => {
-//           //     return (
-//           //       <li key={channel.url} className="list-none h-56 w-48 p-3">
-//           //         <ChannelCard clickHandler={clickHandler} channel={channel} />
-//           //       </li>
-//           //     )
-//           //   })}
-//           // </div>
-//           <div style={style}>Row {index}</div>
-//         )
-//       }
-//     </List>
-//   );
-// };
- 
 const Channels = ({setSelectedChannel}) => {
   const [channels, setChannels] = React.useState([]);
 
@@ -67,8 +18,6 @@ const Channels = ({setSelectedChannel}) => {
   const clickHandler = (channel) => {
     setSelectedChannel(channel);
   };
-
-  // const [columnCount, setColumnCount] = React.useState(null);
 
   const Cell = ({ columnIndex, key, rowIndex, style }) => {
     const channelIndex = (rowIndex * 6) + columnIndex; 
