@@ -1,7 +1,7 @@
 import React from 'react';
 import { WindowScroller, AutoSizer, Grid } from 'react-virtualized';
 import 'react-virtualized/styles.css';
-import getChannels from '../parsem3u';
+import getChannels from '../fetchChannels';
 import ChannelCard from './channelCard';
 
 // const Channels = ({setSelectedChannel}) => {
