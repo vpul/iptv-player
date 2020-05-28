@@ -9,8 +9,8 @@ const Channels = ({setSelectedChannel}) => {
 
   React.useEffect(() => {
     const fetchChannels = async () => {
-      const channels = await getChannels();
-      setChannels(channels);
+      const channelsData = await getChannels();
+      setChannels(channelsData);
     }
     fetchChannels();
   }, []);

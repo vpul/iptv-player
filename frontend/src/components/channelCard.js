@@ -1,5 +1,6 @@
 import React from 'react';
 import { useImage } from 'react-image';
+import { Link } from 'react-router-dom';
 import LoadingSpinner from './loadingSpinner';
 
 const Img = ({className, alt, src, onError}) => {
@@ -26,19 +27,21 @@ const ChannelCard = ({clickHandler, channel }) => {
   };
 
   return (
-    <div onClick={() => clickHandler(channel)} className="group cursor-pointer rounded shadow-md hover:shadow-2xl w-full h-full bg-gray-100">
-      <div className='w-full h-32 p-3 flex items-center justify-center'>
-      <React.Suspense fallback={<LoadingSpinner />}>
-        <Img
-          className = 'mx-auto max-h-full'
-          alt = {channel.name+' logo'} 
-          src = {channel.logo || "icons8-tv-100.png"}
-          onError = {imgErrorHandler}
-        />
-      </React.Suspense>
+    <Link to={`/${channel.id}`}>
+      <div className="group cursor-pointer rounded shadow-md hover:shadow-2xl w-full h-full bg-gray-100">
+        <div className='w-full h-32 p-3 flex items-center justify-center'>
+        <React.Suspense fallback={<LoadingSpinner />}>
+          <Img
+            className = 'mx-auto max-h-full'
+            alt = {channel.name+' logo'} 
+            src = {channel.logo || "icons8-tv-100.png"}
+            onError = {imgErrorHandler}
+          />
+        </React.Suspense>
+        </div>
+        <h5 className="group-hover:text-gray-900 text-gray-700 font-medium p-3">{channel.name}</h5>
       </div>
-      <h5 className="group-hover:text-gray-900 text-gray-700 font-medium p-3">{channel.name}</h5>
-    </div>
+    </Link>
   );
 };
 

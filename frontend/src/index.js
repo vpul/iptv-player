@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import './assets/main.css';
 import App from './components/App';
+import VideoPlayer from './components/videoPlayer';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render((
@@ -10,9 +11,10 @@ ReactDOM.render((
     <Router>
       <Switch>
         <Route exact path='/' component={App} />
+        <Route path='/:id' component={VideoPlayer} />
         {/* <Route component={NotFound} /> */}
       </Switch>
-    </Router>,
+    </Router>
   </React.StrictMode>
 ), document.getElementById('root'));
 
