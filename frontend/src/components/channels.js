@@ -4,7 +4,7 @@ import 'react-virtualized/styles.css';
 import getChannels from '../fetchChannels';
 import ChannelCard from './channelCard';
 
-const Channels = ({setSelectedChannel}) => {
+const Channels = () => {
   const [channels, setChannels] = React.useState([]);
 
   React.useEffect(() => {
@@ -15,17 +15,13 @@ const Channels = ({setSelectedChannel}) => {
     fetchChannels();
   }, []);
 
-  const clickHandler = (channel) => {
-    setSelectedChannel(channel);
-  };
-
   const Cell = ({ columnIndex, key, rowIndex, style }) => {
     const channelIndex = (rowIndex * 6) + columnIndex; 
     if (!channels[channelIndex]) return; 
     return (
     <li className="list-none" key={key} style={style}>
       <div className="p-3 h-full w-full">
-      <ChannelCard clickHandler={clickHandler} channel={channels[channelIndex]} />
+      <ChannelCard channel={channels[channelIndex]} />
       </div>
     </li>
   )};

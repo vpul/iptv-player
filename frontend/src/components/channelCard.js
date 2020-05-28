@@ -18,7 +18,7 @@ const Img = ({className, alt, src, onError}) => {
   )
 }
 
-const ChannelCard = ({clickHandler, channel }) => {
+const ChannelCard = ({ channel }) => {
   // backup image in case original img source fails
   const imgErrorHandler = (e) => {
     if (e.target.src !== "https://picsum.photos/600/400.jpg?blur=6&grayscale") { // this prevents infinite loop error in cases where the backup image itself is down
