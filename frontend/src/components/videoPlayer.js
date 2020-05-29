@@ -15,7 +15,21 @@ const VideoPlayer = ({match}) => {
   return (
     <div >
       <div className='relative h-screen'>
-        <ReactPlayer className='absolute' url={channel.url} playing controls width='100%' height='100%'/>
+        <ReactPlayer 
+          className='absolute' 
+          url={channel.url} 
+          playing 
+          controls 
+          width='100%' 
+          height='100%'
+          config={{
+            file: {
+              attributes: {
+                crossOrigin: 'true'
+              }
+            }
+          }}
+        />
       </div>
     </div>
   );
