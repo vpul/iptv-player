@@ -115,6 +115,8 @@ dist
 # production
 /build
 
+build/
+
 # misc
 .DS_Store
 .env.local
@@ -127,4 +129,4 @@ yarn-debug.log*
 yarn-error.log*
 
 # tailwind generated css file
-client/src/assets/main.css
+**/main.css
