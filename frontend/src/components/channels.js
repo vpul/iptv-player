@@ -4,7 +4,7 @@ import 'react-virtualized/styles.css';
 import getChannels from '../fetchChannels';
 import ChannelCard from './channelCard';
 
-const Channels = () => {
+const Channels = ({className, searchTerm}) => {
   const [channels, setChannels] = React.useState([]);
 
   React.useEffect(() => {
@@ -15,13 +15,17 @@ const Channels = () => {
     fetchChannels();
   }, []);
 
+  const searchedChannels = searchTerm ? channels.filter(channel => (
+    channel.name.toLowerCase().includes(searchTerm.toLowerCase())
+    )) : channels;
+
   const Cell = ({ columnIndex, key, rowIndex, style }) => {
     const channelIndex = (rowIndex * 6) + columnIndex; 
-    if (!channels[channelIndex]) return; 
+    if (!searchedChannels[channelIndex]) return; // exit if the channel on that index doesn't exist
     return (
     <li className="list-none" key={key} style={style}>
       <div className="p-3 h-full w-full">
-      <ChannelCard channel={channels[channelIndex]} />
+      <ChannelCard channel={searchedChannels[channelIndex]} />
       </div>
     </li>
   )};
@@ -30,7 +34,7 @@ const Channels = () => {
   const columnWidth = 192; // This is the cell width. Card size will be smaller due to padding
   const rowHeight = 224; // This is the cell height. Card size will be smaller due to padding
   return (
-    <div className="min-h-screen container mx-auto">
+    <div className={`${className} min-h-screen container mx-auto`}>
       <WindowScroller>
         {({ height, isScrolling, onChildScroll, scrollTop }) => (
           <AutoSizer disableHeight>
@@ -47,7 +51,7 @@ const Channels = () => {
                     isScrolling={isScrolling}
                     onScroll={onChildScroll}
                     scrollTop={scrollTop}
-                    rowCount={Math.ceil(channels.length/columnCount)}
+                    rowCount={Math.ceil(searchedChannels.length/columnCount)}
                     rowHeight={rowHeight}
                     width={width}
                     className = "flex justify-center"

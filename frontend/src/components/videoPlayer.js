@@ -4,6 +4,11 @@ import getChannel from '../fetchChannels';
 
 const VideoPlayer = ({match}) => {
   const [channel, setChannel] = React.useState({url: null});
+  const [error, setError] = React.useState({
+    isError: false,
+    details: {},
+  });
+  
   React.useEffect(() => {
     const fetchChannels = async () => {
       const channelData = await getChannel(`(where: {id: {_eq: ${match.params.id}}})`);
@@ -13,6 +18,13 @@ const VideoPlayer = ({match}) => {
   }, [match.params.id]);
   
   return (
+    <>
+    { error.isError && (<div className="absolute top-0 z-10 flex justify-center items-end w-screen h-64">
+      <div>
+        <div className="text-2xl text-gray-100 ">An error occurred requesting video stream</div>
+        <div className="text-gray-400">Reason: {error.details.type} </div>
+      </div>
+    </div>)}
     <div >
       <div className='relative h-screen'>
         <ReactPlayer 
@@ -29,9 +41,16 @@ const VideoPlayer = ({match}) => {
               }
             }
           }}
+          onError = {(err, data) => {
+            return setError({
+              isError: true,
+              details: data
+            })
+          }}
         />
       </div>
     </div>
+    </>
   );
 };
 
