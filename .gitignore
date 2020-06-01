@@ -114,7 +114,6 @@ dist
 
 # production
 /build
-
 build/
 
 # misc
@@ -129,4 +128,4 @@ yarn-debug.log*
 yarn-error.log*
 
 # tailwind generated css file
-**/main.css
+/client/src/assets/main.css
