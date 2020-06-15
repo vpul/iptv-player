@@ -1,0 +1,23 @@
+{
+  "name": "iptv-player",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vpul/iptv-player.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vpul/iptv-player/issues"
+  },
+  "homepage": "https://github.com/vpul/iptv-player#readme",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "iptv-playlist-parser": "^0.4.3"
+  }
+}
