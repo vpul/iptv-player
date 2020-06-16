@@ -60,11 +60,12 @@ const filterOutSameOrigin = async (channels) => {
 
   const filteredChannels = await Promise.map(channels, async (channel) => {
     try {
-      const { headers } = Axios.get(channel.url, {
+      const { headers } = await Axios.get(channel.url, {
         headers: {
           Origin: 'example.com',
         }
       });
+      
       if (headers['access-control-allow-origin'] === '*' || headers['access-control-allow-origin'] === 'example.com'){
         return channel;
       }
