@@ -3,6 +3,14 @@ const fs = require('fs');
 const parser = require('iptv-playlist-parser');
 const winston = require('winston');
 const Promise = require('bluebird');
+const got = require('got');
+
+Promise.config({
+  warnings: false,
+  longStackTraces: false,
+  cancellation: false,
+  monitoring: false
+});
 
 const logger = winston.createLogger({
   transports: [
@@ -60,16 +68,19 @@ const filterOutSameOrigin = async (channels) => {
 
   const filteredChannels = await Promise.map(channels, async (channel) => {
     try {
+      logger.info(`Processing ${++index} of ${channels.length} channels: ${channel.url}`);
+      
+      if (!channel.url.includes('m3u8')) return;
+
       const { headers } = await Axios.get(channel.url, {
         headers: {
           Origin: 'example.com',
         }
       });
-
+      
       if (headers['access-control-allow-origin'] === '*' || headers['access-control-allow-origin'] === 'example.com'){
         return channel;
       }
-      console.log(`Processed ${++index} of ${channels.length} channels`);
 
     } catch(error) {
       if (error.response) {
@@ -77,13 +88,13 @@ const filterOutSameOrigin = async (channels) => {
       } else if (error.request) {
         logger.error(`${error.config.url} - ${error.message}`);
       } else {
+        console.log(error);
         logger.error(error);
       }
     }
-  }, {concurrency: 10});
+  }, {concurrency: 5});
 
-  console.log(filteredChannels.length);
-  return filteredChannels;
+  return filteredChannels.filter((channel) => channel); // remove null items
 };
 
 const getBrowserFriendlyChannels = async (channels) => {
@@ -97,6 +108,7 @@ const main = async () => {
   try {
     const channels = await getChannels();
     const filteredChannels = await getBrowserFriendlyChannels(channels);  // with HTTPS and without same-origin policy
+    console.log(filteredChannels.length);
     fs.writeFileSync('channels.json', JSON.stringify(filteredChannels));
   } catch(error) {
     if (error.response) {
