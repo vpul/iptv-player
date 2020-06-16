@@ -1,6 +1,14 @@
 const Axios = require('axios');
 const fs = require('fs');
 const parser = require('iptv-playlist-parser');
+const winston = require('winston');
+const Promise = require('bluebird');
+
+const logger = winston.createLogger({
+  transports: [
+    new winston.transports.File({ filename: 'combined.log' })
+  ]
+});
 
 const getUnsortedChannels = async () => {
   const unsortedPlaylist = 'https://raw.githubusercontent.com/iptv-org/iptv/master/channels/unsorted.m3u';
@@ -47,33 +55,41 @@ const filterOutXXX = (channels) => {
   return filteredChannels;
 }
 
-const filterOutSameAccessOrigin = async (channels) => {
-  const filteredChannels = channels.filter(async (channel) => {
+const filterOutSameOrigin = async (channels) => {
+  let index = 0;
+
+  const filteredChannels = await Promise.map(channels, async (channel) => {
     try {
-      const { headers } = await Axios.get(channel.url, {
+      const { headers } = Axios.get(channel.url, {
         headers: {
           Origin: 'example.com',
         }
       });
-      return headers['access-control-allow-origin'] === '*' || headers['access-control-allow-origin'] === 'example.com';
+      if (headers['access-control-allow-origin'] === '*' || headers['access-control-allow-origin'] === 'example.com'){
+        return channel;
+      }
+      console.log(`Processing ${++index} of ${channels.length} channels`);
+
     } catch(error) {
       if (error.response) {
-        console.error(`${error.config.url} - ${error.response.status}:${error.response.statusText}`);
+        logger.error(`${error.config.url} - ${error.response.status}:${error.response.statusText}`);
       } else if (error.request) {
-        console.error(`${error.config.url} - ${error.message}`);
+        logger.error(`${error.config.url} - ${error.message}`);
       } else {
-        console.error(error);
+        logger.error(error);
       }
     }
-  });
+  }, {concurrency: 10});
+
+  console.log(filteredChannels.length);
   return filteredChannels;
 };
 
 const getBrowserFriendlyChannels = async (channels) => {
-    const channelsWithOutXXX = filterOutXXX(channels);
-    const channelsWithHttps = filterOutHttp(channelsWithOutXXX);
-    const channelsWithCORS = await filterOutSameAccessOrigin(channelsWithHttps);
-    return channelsWithCORS;
+    let filteredChannels = filterOutXXX(channels);
+    filteredChannels = filterOutHttp(filteredChannels);
+    filteredChannels = await filterOutSameOrigin(filteredChannels);
+    return filteredChannels;
 };
 
 const main = async () => {
@@ -81,16 +97,18 @@ const main = async () => {
     const channels = await getChannels();
     const filteredChannels = await getBrowserFriendlyChannels(channels);  // with HTTPS and without same-origin policy
     fs.writeFileSync('channels.json', JSON.stringify(filteredChannels));
+
+    const used = process.memoryUsage().heapUsed / 1024 / 1024;
+    console.log(`The script uses approximately ${used} MB`);
   } catch(error) {
     if (error.response) {
-      console.error(`${error.config.url} - ${error.response.status}:${error.response.statusText}`);
+      logger.error(`${error.config.url} - ${error.response.status}:${error.response.statusText}`);
     } else if (error.request) {
-      console.error(`${error.config.url} - ${error.message}`);
+      logger.error(`${error.config.url} - ${error.message}`);
     } else {
-      console.error(error);
+      logger.error(error.message);
     }
   }
 };
 
 main();
-

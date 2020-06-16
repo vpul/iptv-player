@@ -18,6 +18,8 @@
   "homepage": "https://github.com/vpul/iptv-player#readme",
   "dependencies": {
     "axios": "^0.19.2",
-    "iptv-playlist-parser": "^0.4.3"
+    "bluebird": "^3.7.2",
+    "iptv-playlist-parser": "^0.4.3",
+    "winston": "^3.2.1"
   }
 }
