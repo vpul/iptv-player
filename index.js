@@ -69,7 +69,7 @@ const filterOutSameOrigin = async (channels) => {
       if (headers['access-control-allow-origin'] === '*' || headers['access-control-allow-origin'] === 'example.com'){
         return channel;
       }
-      console.log(`Processing ${++index} of ${channels.length} channels`);
+      console.log(`Processed ${++index} of ${channels.length} channels`);
 
     } catch(error) {
       if (error.response) {
