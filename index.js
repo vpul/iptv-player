@@ -65,7 +65,7 @@ const filterOutSameOrigin = async (channels) => {
           Origin: 'example.com',
         }
       });
-      
+
       if (headers['access-control-allow-origin'] === '*' || headers['access-control-allow-origin'] === 'example.com'){
         return channel;
       }
@@ -98,9 +98,6 @@ const main = async () => {
     const channels = await getChannels();
     const filteredChannels = await getBrowserFriendlyChannels(channels);  // with HTTPS and without same-origin policy
     fs.writeFileSync('channels.json', JSON.stringify(filteredChannels));
-
-    const used = process.memoryUsage().heapUsed / 1024 / 1024;
-    console.log(`The script uses approximately ${used} MB`);
   } catch(error) {
     if (error.response) {
       logger.error(`${error.config.url} - ${error.response.status}:${error.response.statusText}`);
