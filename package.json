@@ -19,7 +19,6 @@
   "dependencies": {
     "axios": "^0.19.2",
     "bluebird": "^3.7.2",
-    "got": "^11.3.0",
     "iptv-playlist-parser": "^0.4.3",
     "winston": "^3.2.1"
   }
