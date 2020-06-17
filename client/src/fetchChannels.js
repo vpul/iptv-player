@@ -1,24 +1,21 @@
-import { request } from 'graphql-request'
+import Axios from 'axios';
 
-const getChannels = async (condition) => {
-  const endpoint = 'https://api.webtv.rocks/v1/graphql';
+const getChannels = async (channelId) => {
+  const endpoint = 'https://vpul.github.io/iptv-player/channels.json';
 
-  const query = `query selectAllChannels {
-    iptv_channels${condition || ''} {
-      id
-      country
-      category
-      language
-      logo
-      name
-      url
-      views
-    }
+  const { data } = await Axios.get(endpoint);
+
+  //add id to each array items
+  const channelsArray = data.map((channel, index) => {
+    return {
+      id: index,
+      ...channel,
+    };
+  });
+  if (channelId) {
+    return channelsArray[channelId];
   }
-  `;
-
-  const { iptv_channels} = await request(endpoint, query);
-  return iptv_channels;
+  return channelsArray;
 }
 
 export default getChannels;

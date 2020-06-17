@@ -11,8 +11,8 @@ const VideoPlayer = ({match}) => {
   
   React.useEffect(() => {
     const fetchChannels = async () => {
-      const channelData = await getChannel(`(where: {id: {_eq: ${match.params.id}}})`);
-      setChannel(channelData[0]);
+      const channelData = await getChannel(match.params.id);
+      setChannel(channelData);
     }
     fetchChannels();
   }, [match.params.id]);
