@@ -1,12 +1,12 @@
 import { lazy, Suspense } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router';
+import { HashRouter, Route, Routes } from 'react-router';
 
 const Home = lazy(() => import('@/pages/Home'));
 const Watch = lazy(() => import('@/pages/Watch'));
 
 export function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Suspense fallback={null}>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -14,6 +14,6 @@ export function App() {
           <Route path="*" element={<Home />} />
         </Routes>
       </Suspense>
-    </BrowserRouter>
+    </HashRouter>
   );
 }

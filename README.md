@@ -1,68 +1,79 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Still · calm IPTV
 
-## Available Scripts
+A calm, fast, open-source IPTV player. Browse ~1,500 live channels from 179 countries and watch them in the browser — no accounts, no clutter, no shouting.
 
-In the project directory, you can run:
+> **Live site:** [vpul.github.io/iptv-player](https://vpul.github.io/iptv-player/)
 
-### `npm start`
+## Screenshots
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+| Browse | Watch |
+|---|---|
+| ![Channel guide](docs/screenshots/home.png) | ![Live playback](docs/screenshots/watch.png) |
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+## What it is
 
-### `npm test`
+Most IPTV frontends are walls of thousands of stale links. Still takes a different approach:
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **Fresh by construction.** The channel list is curated from the continuously-updated [iptv-org](https://github.com/iptv-org/iptv) database. A [weekly GitHub Action](.github/workflows/refresh-channels.yml) re-curates the list, so dead links are pruned and new streams appear without any manual work.
+- **Browser-playable only.** The curation script keeps HTTPS HLS (`.m3u8`) streams that work in a plain browser and drops anything needing custom headers.
+- **Quiet by design.** Dark, low-contrast surfaces; one sage accent; typography that gets out of the way. The grid loads instantly and scrolls through every channel without breaking a sweat (virtualized rendering).
 
-### `npm run build`
+## Tech stack
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+| Concern | Choice |
+|---|---|
+| Build | [Vite 7](https://vite.dev/) |
+| UI | [React 19](https://react.dev/) + TypeScript (strict) |
+| Styling | [Tailwind CSS v4](https://tailwindcss.com/) (CSS-first `@theme` tokens) |
+| Routing | [react-router v7](https://reactrouter.com/) |
+| Playback | [hls.js](https://github.com/video-dev/hls.js/) (native HLS on Safari) |
+| Virtualization | [@tanstack/react-virtual](https://tanstack.com/virtual) |
+| Data | [iptv-org API](https://iptv-org.github.io/api/) → curated `public/channels.json` |
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+## Getting started
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+npm install
+npm run dev        # http://localhost:5173/iptv-player/
+```
 
-### `npm run eject`
+Other scripts:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```bash
+npm run build            # typecheck + production build
+npm run typecheck        # strict TS, no emit
+npm run update:channels  # re-curate the channel snapshot from the iptv-org API
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## How the channel list stays fresh
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+`npm run update:channels` runs [`scripts/update-channels.mjs`](scripts/update-channels.mjs), which:
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+1. Pulls `streams.json`, `channels.json`, and `logos.json` from the iptv-org API (~11 MB).
+2. Joins streams to channel metadata, keeping only browser-playable candidates: HTTPS HLS playlists that need no custom `User-Agent` or `Referrer`.
+3. Drops NSFW and closed channels, picks the best-quality main feed per channel, and prefers in-use logos.
+4. Balances the list across countries (per-country cap, total cap ~1,500) and writes a lean `public/channels.json` (~370 KB).
 
-## Learn More
+A GitHub Action re-runs this every Monday and commits the result, which triggers an automatic redeploy.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Project layout
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```
+scripts/update-channels.mjs   channel curation pipeline
+public/channels.json          generated snapshot (do not hand-edit)
+src/styles/tokens.css         design tokens (Tailwind v4 @theme)
+src/lib/                      data access (api client + useChannels hook)
+src/pages/Home.tsx            search + filters + virtualized channel grid
+src/pages/Watch.tsx           hls.js player + related channels
+src/components/home/          header, search, filter bar, grid, cards, states
+src/components/player/        video surface + stream error states
+docs/screenshots/             images used in this README
+```
 
-### Code Splitting
+Design context lives in [`PRODUCT.md`](PRODUCT.md) and [`DESIGN.md`](DESIGN.md).
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+## Credits & license
 
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+- Channel data: [iptv-org/iptv](https://github.com/iptv-org/iptv) and its contributors. Streams are hosted by the respective broadcasters; availability depends on each one.
+- This app only indexes publicly available streams and hosts no video.
+- Code: MIT — see [LICENSE](LICENSE).
