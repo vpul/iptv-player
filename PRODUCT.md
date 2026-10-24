@@ -33,4 +33,4 @@ Quiet, warm, unhurried. Three words: calm, deliberate, polished. The interface s
 
 ## Accessibility & Inclusion
 
-WCAG 2.1 AA: body text ≥4.5:1 contrast on dark surfaces, focus-visible rings on all interactive elements, full keyboard reachability, `prefers-reduced-motion` honored everywhere, semantic landmarks and alt text for channel logos.
+WCAG 2.1 AA: body text ≥4.5:1 contrast on dark surfaces, focus-visible rings on all interactive elements, full keyboard reachability, `prefers-reduced-motion` honored everywhere, semantic landmarks. Channel logos are decorative (`alt=""`) because the channel name is adjacent text.

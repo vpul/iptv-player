@@ -4,6 +4,11 @@ on:
   push:
     branches: [master]
   workflow_dispatch:
+  # The weekly Refresh channels run commits with GITHUB_TOKEN, which does not
+  # trigger `push` workflows (GitHub recursion prevention) — pick it up here.
+  workflow_run:
+    workflows: ["Refresh channels"]
+    types: [completed]
 
 permissions:
   contents: write

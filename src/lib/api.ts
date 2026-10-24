@@ -6,13 +6,17 @@ let cache: Promise<ChannelsFile> | null = null;
 
 /** Fetch the curated channel list shipped with the app. Cached per session. */
 export function fetchChannels(): Promise<ChannelsFile> {
-  cache ??= fetch(url).then(async (res) => {
-    if (!res.ok) {
+  if (cache === null) {
+    const request = fetch(url).then(async (res) => {
+      if (!res.ok) throw new Error(`Failed to load channels (${res.status})`);
+      return res.json() as Promise<ChannelsFile>;
+    });
+    cache = request;
+    // A network-level rejection must not poison the cache: retry should refetch.
+    request.catch(() => {
       cache = null;
-      throw new Error(`Failed to load channels (${res.status})`);
-    }
-    return res.json() as Promise<ChannelsFile>;
-  });
+    });
+  }
   return cache;
 }
 

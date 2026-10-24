@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useChannels } from '@/lib/useChannels';
+import { capitalize } from '@/lib/format';
 import type { Channel } from '@/types';
 import { Header } from '@/components/home/Header';
 import { FilterBar } from '@/components/home/FilterBar';
@@ -13,10 +14,6 @@ const dateFormatter = new Intl.DateTimeFormat('en', {
   year: 'numeric',
 });
 
-function capitalize(value: string): string {
-  return value.charAt(0).toUpperCase() + value.slice(1);
-}
-
 export default function Home() {
   const { channels, generatedAt, loading, error, reload } = useChannels();
   const [searchTerm, setSearchTerm] = useState('');
@@ -27,6 +24,7 @@ export default function Home() {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key !== '/') return;
+      if (event.metaKey || event.ctrlKey || event.altKey) return;
       const target = event.target as HTMLElement | null;
       const tag = target?.tagName;
       if (
@@ -93,6 +91,14 @@ export default function Home() {
     return dateFormatter.format(date);
   }, [generatedAt]);
 
+  // Announce the result count to screen readers only once typing settles;
+  // announcing per keystroke would narrate over the user's input.
+  const [announcedCount, setAnnouncedCount] = useState(0);
+  useEffect(() => {
+    const timer = setTimeout(() => setAnnouncedCount(filteredChannels.length), 500);
+    return () => clearTimeout(timer);
+  }, [filteredChannels.length]);
+
   const trimmedSearch = searchTerm.trim();
 
   const clearFilters = () => {
@@ -118,10 +124,13 @@ export default function Home() {
           onCountryChange={setCountry}
           onCategoryChange={setCategory}
         />
-        <p className="py-2 text-xs text-ink-faint" aria-live="polite">
+        <p className="py-2 text-xs text-ink-faint">
           {filteredChannels.length}{' '}
           {filteredChannels.length === 1 ? 'channel' : 'channels'} · updated{' '}
           {updatedLabel ?? '—'}
+        </p>
+        <p className="sr-only" aria-live="polite">
+          {announcedCount} {announcedCount === 1 ? 'channel' : 'channels'}
         </p>
         {loading ? (
           <GridSkeleton />

@@ -1,19 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router';
 import { VideoSurface } from '@/components/player/VideoSurface';
+import { findChannel } from '@/lib/api';
 import { useChannels } from '@/lib/useChannels';
+import { capitalize, monogram } from '@/lib/format';
 import type { Channel } from '@/types';
 
 const RELATED_LIMIT = 12;
-
-function initialsOf(name: string): string {
-  return name
-    .split(/\s+/)
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((word) => word.charAt(0).toUpperCase())
-    .join('');
-}
 
 function RailCard({ channel }: { channel: Channel }) {
   const [logoFailed, setLogoFailed] = useState(false);
@@ -34,7 +27,7 @@ function RailCard({ channel }: { channel: Channel }) {
           />
         ) : (
           <span aria-hidden="true" className="font-display text-ink-faint">
-            {initialsOf(channel.name)}
+            {monogram(channel.name)}
           </span>
         )}
       </div>
@@ -48,17 +41,18 @@ export default function Watch() {
   const { channels, loading, error, reload } = useChannels();
 
   const channel = useMemo(
-    () => (channelId ? channels.find((c) => c.id === channelId) : undefined),
+    () => (channelId ? findChannel(channels, channelId) : undefined),
     [channelId, channels],
   );
 
-  const related = useMemo(() => {
-    if (!channel) return [];
+  const { related, mixedCountries } = useMemo(() => {
+    if (!channel) return { related: [], mixedCountries: false };
     const sameCountry = channels.filter(
       (c) => c.id !== channel.id && c.country.code === channel.country.code,
     );
     let list = sameCountry;
-    if (list.length < 4 && channel.category) {
+    let mixed = false;
+    if (list.length < RELATED_LIMIT && channel.category) {
       const extra = channels.filter(
         (c) =>
           c.id !== channel.id &&
@@ -66,8 +60,9 @@ export default function Watch() {
           !list.includes(c),
       );
       list = [...list, ...extra];
+      mixed = extra.length > 0;
     }
-    return list.slice(0, RELATED_LIMIT);
+    return { related: list.slice(0, RELATED_LIMIT), mixedCountries: mixed };
   }, [channel, channels]);
 
   useEffect(() => {
@@ -163,7 +158,7 @@ export default function Watch() {
             {channel.category && (
               <>
                 {' · '}
-                {channel.category.charAt(0).toUpperCase() + channel.category.slice(1)}
+                {capitalize(channel.category)}
               </>
             )}
           </p>
@@ -177,7 +172,9 @@ export default function Watch() {
         {related.length > 0 && (
           <section className="mt-10">
             <h2 className="text-base font-semibold text-ink">
-              More from {channel.country.name}
+              {mixedCountries
+                ? 'More channels'
+                : `More from ${channel.country.name}`}
             </h2>
             <div className="relative mt-4">
               <div

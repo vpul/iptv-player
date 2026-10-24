@@ -9,9 +9,9 @@ interface ChannelGridProps {
 
 /*
   One card: 6rem logo box (96px) + p-3/pt-2 text block (8 + 40 + 4 + 16 + 12 = 80px)
-  + 1px borders = 178px. With the 16px row gap that is a ~192px row pitch.
+  + 1px borders = 178px. With the 16px row gap that is a 194px row pitch.
 */
-const ROW_HEIGHT = 192;
+const ROW_HEIGHT = 194;
 const GAP = 16;
 const MIN_CARD_WIDTH = 176;
 const OVERSCAN = 6;

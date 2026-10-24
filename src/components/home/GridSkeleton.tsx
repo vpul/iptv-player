@@ -5,7 +5,7 @@ export function GridSkeleton() {
     <div
       aria-hidden="true"
       className="grid gap-4"
-      style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(10.5rem, 1fr))' }}
+      style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(11rem, 1fr))' }}
     >
       {Array.from({ length: SKELETON_COUNT }, (_, index) => (
         <div key={index} className="overflow-hidden rounded-xl border border-line bg-surface">

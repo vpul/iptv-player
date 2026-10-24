@@ -20,6 +20,7 @@ export function useChannels(): ChannelsState {
 
   useEffect(() => {
     let cancelled = false;
+    setError(null);
     fetchChannels()
       .then((data) => !cancelled && setFile(data))
       .catch((err: Error) => !cancelled && setError(err));

@@ -36,12 +36,12 @@ Fixed rem scale, ratio ~1.2: `0.75 / 0.8125 / 0.875 / 1 / 1.125 / 1.375 / 1.75re
 
 ## Layout
 
-- **Header** (sticky, hairline bottom border): wordmark left, search center (max 32rem), quiet GitHub link right. Height 4rem.
+- **Header** (sticky, hairline bottom border): wordmark left, search center (max 28rem), quiet GitHub link right. Height 4rem.
 - **Filter row** below header: country `<select>` + horizontal-scroll category chips, one row, never wrapping into walls.
 - **Channel grid**: CSS grid `repeat(auto-fill, minmax(10.5rem, 1fr))`, gap 1rem, virtualized rows (@tanstack/react-virtual). Card: 12px radius, 1px `--line` border, logo centered on surface with fixed 6rem logo box, name + country line below.
-- **Watch page**: player at 16:9 max-height 72vh, full-bleed width, meta row (title, country · category · quality badge), then "More channels" rail reusing the card.
+- **Watch page**: player at 16:9 max-height 72vh, centered in a max-w-6xl (72rem) column, meta row (title, country · category · quality badge), then "More channels" rail reusing the card.
 - Max content width 90rem; single column of sections, no sidebars.
-- Z-scale: content `0` < sticky header `10` < player overlay `20` < toast `30`.
+- Z-order: sticky header above content; player overlays sit above the stage by DOM order.
 
 ## Components
 

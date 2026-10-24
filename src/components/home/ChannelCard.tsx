@@ -1,18 +1,10 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
 import type { Channel } from '@/types';
+import { monogram } from '@/lib/format';
 
 interface ChannelCardProps {
   channel: Channel;
-}
-
-function monogram(name: string): string {
-  return name
-    .split(/\s+/)
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((word) => word.charAt(0).toUpperCase())
-    .join('');
 }
 
 export function ChannelCard({ channel }: ChannelCardProps) {
