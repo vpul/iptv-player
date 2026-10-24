@@ -1,6 +1,11 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "name": "Still — calm IPTV",
+  "short_name": "Still",
+  "description": "Free live television from around the world, quietly.",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#141716",
+  "theme_color": "#141716",
   "icons": [
     {
       "src": "favicon.ico",
@@ -17,9 +22,5 @@
       "type": "image/png",
       "sizes": "512x512"
     }
-  ],
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  ]
 }
