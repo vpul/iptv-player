@@ -1,0 +1,33 @@
+name: Refresh channels
+
+# Re-curates public/channels.json from the iptv-org API so stream links stay
+# fresh. Any committed change flows through to the deployed site via deploy.yml.
+on:
+  schedule:
+    - cron: '0 4 * * 1' # Mondays 04:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-channels
+  cancel-in-progress: true
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node scripts/update-channels.mjs
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/channels.json
+          git diff --cached --quiet && echo "No changes" && exit 0
+          git commit -m "chore: refresh channel snapshot from iptv-org"
+          git push
