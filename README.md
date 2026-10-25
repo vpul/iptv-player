@@ -1,4 +1,4 @@
-# Still · calm IPTV
+# Luma · free live TV
 
 A calm, fast, open-source IPTV player. Browse ~1,500 live channels from 179 countries and watch them in the browser — no accounts, no clutter, no shouting.
 
@@ -12,7 +12,7 @@ A calm, fast, open-source IPTV player. Browse ~1,500 live channels from 179 coun
 
 ## What it is
 
-Most IPTV frontends are walls of thousands of stale links. Still takes a different approach:
+Most IPTV frontends are walls of thousands of stale links. Luma takes a different approach:
 
 - **Fresh by construction.** The channel list is curated from the continuously-updated [iptv-org](https://github.com/iptv-org/iptv) database. A [weekly GitHub Action](.github/workflows/refresh-channels.yml) re-curates the list, so dead links are pruned and new streams appear without any manual work.
 - **Browser-playable only.** The curation script keeps HTTPS HLS (`.m3u8`) streams that work in a plain browser and drops anything needing custom headers.

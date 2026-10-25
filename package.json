@@ -1,6 +1,6 @@
 {
   "name": "iptv-player",
-  "description": "Still — a calm IPTV player. Live channels curated from the iptv-org database.",
+  "description": "Luma — free live TV. Live channels curated from the iptv-org database.",
   "version": "2.0.0",
   "private": true,
   "type": "module",

@@ -13,8 +13,8 @@ export function Header({ searchValue, onSearchChange, searchInputRef }: HeaderPr
     <header className="sticky top-0 z-10 h-16 border-b border-line bg-bg">
       <div className="flex h-full items-center gap-4 px-4 sm:px-6 lg:px-8">
         <Link to="/" className="shrink-0">
-          <span className="font-display text-xl font-medium text-ink">Still</span>
-          <span className="ml-2 hidden text-sm text-ink-faint sm:inline">· calm IPTV</span>
+          <span className="font-display text-xl font-medium text-ink">Luma</span>
+          <span className="ml-2 hidden text-sm text-ink-faint sm:inline">· free live TV</span>
         </Link>
         <div className="flex max-w-md flex-1">
           <SearchInput value={searchValue} onChange={onSearchChange} inputRef={searchInputRef} />

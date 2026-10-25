@@ -115,7 +115,7 @@ export default function Home() {
         searchInputRef={searchInputRef}
       />
       <main className="mx-auto max-w-[90rem] px-4 pb-16 sm:px-6 lg:px-8">
-        <h1 className="sr-only">Still — live channel guide</h1>
+        <h1 className="sr-only">Luma — live channel guide</h1>
         <FilterBar
           countries={countryOptions}
           categories={categoryOptions}

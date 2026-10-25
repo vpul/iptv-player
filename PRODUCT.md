@@ -10,7 +10,7 @@ People who want to lean back and watch free, publicly available live television 
 
 ## Product Purpose
 
-Still is a calm IPTV player: a virtualized, searchable grid of live channels curated from the iptv-org community database, and a dependable HLS player. Success: the app opens fast, every visible channel plays (or fails gracefully with an alternative), and nothing on screen shouts. It replaces a 2020-era Create React App whose stream links had rotted.
+Luma is a calm IPTV player: a virtualized, searchable grid of live channels curated from the iptv-org community database, and a dependable HLS player. Success: the app opens fast, every visible channel plays (or fails gracefully with an alternative), and nothing on screen shouts. It replaces a 2020-era Create React App whose stream links had rotted. The name is video terminology: luma is the brightness signal in a video stream.
 
 ## Brand Personality
 

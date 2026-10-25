@@ -71,9 +71,9 @@ export default function Watch() {
 
   useEffect(() => {
     if (!channel) return;
-    document.title = `${channel.name} · Still`;
+    document.title = `${channel.name} · Luma`;
     return () => {
-      document.title = 'Still · calm IPTV';
+      document.title = 'Luma · free live TV';
     };
   }, [channel]);
 
