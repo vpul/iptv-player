@@ -1,6 +1,6 @@
 # Luma · free live TV
 
-A fast, open-source IPTV player. Browse ~1,500 live channels from 179 countries and watch them in the browser — no accounts, no clutter, no shouting.
+A fast, open-source IPTV player. Browse ~1,500 live channels from 179 countries and watch them in the browser — no accounts, no clutter.
 
 > **Live site:** [vpul.github.io/luma](https://vpul.github.io/luma/)
 
