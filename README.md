@@ -1,8 +1,8 @@
 # Luma · free live TV
 
-A calm, fast, open-source IPTV player. Browse ~1,500 live channels from 179 countries and watch them in the browser — no accounts, no clutter, no shouting.
+A fast, open-source IPTV player. Browse ~1,500 live channels from 179 countries and watch them in the browser — no accounts, no clutter, no shouting.
 
-> **Live site:** [vpul.github.io/iptv-player](https://vpul.github.io/iptv-player/)
+> **Live site:** [vpul.github.io/luma](https://vpul.github.io/luma/)
 
 ## Screenshots
 
@@ -34,7 +34,7 @@ Most IPTV frontends are walls of thousands of stale links. Luma takes a differen
 
 ```bash
 npm install
-npm run dev        # http://localhost:5173/iptv-player/
+npm run dev        # http://localhost:5173/luma/
 ```
 
 Other scripts:

@@ -20,7 +20,7 @@ export function Header({ searchValue, onSearchChange, searchInputRef }: HeaderPr
           <SearchInput value={searchValue} onChange={onSearchChange} inputRef={searchInputRef} />
         </div>
         <a
-          href="https://github.com/vpul/iptv-player"
+          href="https://github.com/vpul/luma"
           target="_blank"
           rel="noreferrer"
           aria-label="View source on GitHub"

@@ -4,8 +4,8 @@ import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
-  // The app is served from the `gh-pages` project page at /iptv-player/.
-  base: '/iptv-player/',
+  // The app is served from the `gh-pages` project page at /luma/.
+  base: '/luma/',
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
